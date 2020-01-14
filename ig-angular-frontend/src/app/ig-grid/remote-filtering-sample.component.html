@@ -1,0 +1,8 @@
+<div class="grid__wrapper">
+    <igx-grid #grid [data]="remoteData | async" [height]="'440px'" [width]="'100%'" [autoGenerate]='true'
+        [filterStrategy]="noopFilterStrategy"
+        [sortStrategy]="noopSortStrategy"
+        [allowFiltering]="true"
+        (onColumnInit)="onColumnInit($event)">
+    </igx-grid>
+</div>

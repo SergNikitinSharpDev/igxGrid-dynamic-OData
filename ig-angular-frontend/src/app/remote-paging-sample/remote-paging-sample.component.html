@@ -1,0 +1,41 @@
+<div class="grid__wrapper" (window:click)="disableContextMenu()">
+    <input #search1 id="search1" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="fulltextSearch(searchText)" />
+    <igx-grid #grid1 [data]="data | async" width="100%" height="670px" [paging]="true" [perPage]="perPage" [paginationTemplate]="customPager" [autoGenerate]='true'
+        [filterStrategy]="noopFilterStrategy"
+        [sortStrategy]="noopSortStrategy"
+        [allowFiltering]="true"
+        (onColumnInit)="onColumnInit($event)"
+        [rowEditable]="true"
+        [primaryKey]="'id'"
+        (onRowEdit)="editDone($event)"
+        (onContextMenu)="rightClick($event)" 
+        (onRangeSelection)="getCells($event)"
+        (onSelection)="cellSelection($event)"
+    >
+    </igx-grid>
+    <div *ngIf="contextmenu==true">
+        <contextmenu [x]="contextmenuX" [y]="contextmenuY" [cell]="clickedCell" [selectedCells]="multiCellArgs" (onCellValueCopy)="copy($event)">
+        </contextmenu>
+    </div>
+    <ng-template #customPager let-api>
+        <igx-paginator #paginator
+            [totalRecords]="totalCount"
+            [(perPage)]="perPage"
+            [selectLabel]="'Records per page:'"
+            [selectOptions]="selectOptions"
+            [displayDensity]="grid1.displayDensity"
+            (pageChange)="paginate($event)">
+        </igx-paginator>
+    </ng-template>
+    <div class="selected-data-area">
+        <div>
+           <pre>{{copiedData}}</pre>
+        </div>
+    </div>
+    <form>
+        <b>Hide columns: </b>
+        <label *ngFor="let column of hColumns" class="checkbox-control">
+        <input type="checkbox" (change)="onChecklistChange($event.target.checked, column)" [checked]="column.checked" [value]="column.index" /> {{ column.label }}
+      </label>
+    </form>
+</div>
