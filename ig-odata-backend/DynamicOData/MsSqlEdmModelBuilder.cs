@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PostgreODataAPI.DynamicOData
 {
-    public class MsSqlEdmModelBuilder
+    public class MsSqlEdmModelBuilder : IEdmModelBuilder
     {
         private readonly ISchemaReader _schemaReader;
 
@@ -82,13 +82,13 @@ namespace PostgreODataAPI.DynamicOData
             return entity;
         }
 
-        public EdmModel GetModel()
+        public EdmModel GetModel(string clientName)
         {
             EdmModel model = new EdmModel();
             EdmEntityContainer container = new EdmEntityContainer("ns", "container");
             model.AddElement(container);
 
-            var databaseTables = _schemaReader.GetTables(null);
+            var databaseTables = _schemaReader.GetTables(null, clientName);
 
             foreach (var table in databaseTables)
             {

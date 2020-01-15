@@ -30,7 +30,7 @@ namespace PostgreODataAPI.DynamicOData
 
         private string FromClause()
         {
-            return $"[{_edmEntityType.Namespace}].[{_edmEntityType.Name}]";
+            return $"\"{_edmEntityType.Namespace}\".\"{_edmEntityType.Name}\"";
         }
 
         private string BuildSingleClause(SingleValuePropertyAccessNode propertyNode, ConstantNode valueNode, BinaryOperatorKind operatorKind)

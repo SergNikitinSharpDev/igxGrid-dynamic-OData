@@ -10,11 +10,11 @@ namespace PostgreODataAPI.DynamicOData
 {
     public class MsSqlSchemaReader : ISchemaReader
     {
-        private readonly string _connectionString;
+        private readonly IConfiguration _configuration;
 
         public MsSqlSchemaReader(IConfiguration configuration, string clientName)
         {
-            _connectionString = configuration.GetConnectionString(clientName);
+            _configuration = configuration;
         }
 
         private string BuildSql(IEnumerable<TableInfo> tableInfos)
@@ -46,25 +46,25 @@ namespace PostgreODataAPI.DynamicOData
             return sql;
         }
 
-        private IEnumerable<DatabaseColumn> GetColumns(IEnumerable<TableInfo> tableInfos)
+        private IEnumerable<DatabaseColumn> GetColumns(IEnumerable<TableInfo> tableInfos, string clientName)
         {
             string sql = BuildSql(tableInfos);
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_configuration.GetConnectionString(clientName)))
             {
                 var databaseColumns = connection.Query<DatabaseColumn>(sql);
                 return databaseColumns;
             }
         }
 
-        public IEnumerable<DatabaseTable> GetTables(IEnumerable<TableInfo> tableInfos)
+        public IEnumerable<DatabaseTable> GetTables(IEnumerable<TableInfo> tableInfos, string clientName)
         {
-            var columns = GetColumns(tableInfos);
+            var columns = GetColumns(tableInfos, clientName);
             List<DatabaseTable> tables = new List<DatabaseTable>();
 
-            foreach (var schema in columns.GroupBy(c => c.pSchema))
+            foreach (var schema in columns.GroupBy(c => c.Schema))
             {
-                var tableList = schema.GroupBy(c => c.pTable).Select(tableGroup => new DatabaseTable()
+                var tableList = schema.GroupBy(c => c.Table).Select(tableGroup => new DatabaseTable()
                 {
                     Schema = schema.Key,
                     Name = tableGroup.Key,

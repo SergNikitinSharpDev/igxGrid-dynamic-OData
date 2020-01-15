@@ -34,7 +34,7 @@ namespace PostgreODataAPI.Controllers
             var entityType = collectionType?.ElementType.Definition as IEdmEntityType;
 
             string sourceString = Request.GetDataSource();
-            var model = _edmModelBuilder.GetModel();
+            var model = _edmModelBuilder.GetModel(sourceString);
 
             var queryContext = new ODataQueryContext(model, entityType, path);
             var queryOptions = new ODataQueryOptions(queryContext, Request);

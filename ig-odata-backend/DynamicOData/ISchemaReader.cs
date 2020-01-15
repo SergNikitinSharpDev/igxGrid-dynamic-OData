@@ -5,6 +5,6 @@ namespace PostgreODataAPI.DynamicOData
 {
     public interface ISchemaReader
     {
-        IEnumerable<DatabaseTable> GetTables(IEnumerable<TableInfo> tableInfos);
+        IEnumerable<DatabaseTable> GetTables(IEnumerable<TableInfo> tableInfos, string clientName);
     }
 }

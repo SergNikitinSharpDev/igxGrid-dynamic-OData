@@ -4,6 +4,6 @@ namespace PostgreODataAPI.DynamicOData
 {
     public interface IEdmModelBuilder
     {
-        EdmModel GetModel();
+        EdmModel GetModel(string clientName);
     }
 }

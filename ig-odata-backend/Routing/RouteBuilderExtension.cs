@@ -29,8 +29,8 @@ namespace PostgreODataAPI.Routing
 
                     // serviceScope.
                     string sourceString = serviceScope.HttpRequest.GetDataSource();
-                    var modelBuilder = new PostgreEdmModelBuilder(new PostgreSchemaReader(configuration,sourceString));
-                    IEdmModel model = modelBuilder.GetModel();
+                    var modelBuilder = new PostgreEdmModelBuilder(new PostgreSchemaReader(configuration));
+                    IEdmModel model = modelBuilder.GetModel(sourceString);
 
                     return model;
                 });
