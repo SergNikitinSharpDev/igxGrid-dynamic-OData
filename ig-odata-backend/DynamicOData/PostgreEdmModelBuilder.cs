@@ -24,6 +24,7 @@ namespace PostgreODataAPI.DynamicOData
                 {"integer", EdmPrimitiveTypeKind.Int32},
                 {"bigint", EdmPrimitiveTypeKind.Int64},
                 {"float", EdmPrimitiveTypeKind.Double},
+                {"double precision", EdmPrimitiveTypeKind.Double},
                 {"real", EdmPrimitiveTypeKind.Single},
                 {"uuid", EdmPrimitiveTypeKind.Guid},
                 {"geography", EdmPrimitiveTypeKind.Geography},
@@ -91,7 +92,8 @@ namespace PostgreODataAPI.DynamicOData
 
             var tableInfos = new List<TableInfo>() { 
                 new TableInfo() { Schema="main", Name= "project_construction" },
-                new TableInfo() { Schema="main", Name= "system_event_cursor" }
+                new TableInfo() { Schema="main", Name= "v_project_construction_msk" },
+                new TableInfo() { Schema="main", Name= "v_project_dismantle_row" },
             };
             var databaseTables = _schemaReader.GetTables(tableInfos, clientName);
 

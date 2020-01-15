@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { SortingDirection, FilteringLogic } from 'igniteui-angular';
 
 const DATA_URL = "http://localhost:13489/api/projectconstruction";
+//"http://localhost:13489/msodata/pbk/v_project_construction_msk";
 const EMPTY_STRING = "";
 const NULL_VALUE = null;
 export enum FILTER_OPERATION {
@@ -24,7 +25,7 @@ export enum FILTER_OPERATION {
 export class RemotePagingService {
     public remoteData: BehaviorSubject<any[]>;
     public dataLenght: BehaviorSubject<number> = new BehaviorSubject(0);
-    public url = "http://localhost:13489/api/projectconstruction"
+    //public url = "http://localhost:13489/api/projectconstruction"
     //"https://www.igniteui.com/api/products";
 
     constructor(private http: HttpClient) {
@@ -37,6 +38,8 @@ export class RemotePagingService {
         this.http
             .get(qS).pipe(
                 map((data: any) => {
+                    if (data && data.value)
+                        data = data.value;
                     return data;
                 })
             ).subscribe((data) => this.remoteData.next(data));
@@ -47,6 +50,8 @@ export class RemotePagingService {
         //console.log('getDataLength',qS)
         return this.http.get(qS).pipe(
             map((data: any) => {
+                if (data && data.value)
+                    data = data.value;
                 return data.length;
             })
         );
