@@ -83,7 +83,7 @@ namespace PostgreODataAPI.DynamicOData
             if (keys.Count != 1)
                 return null;
 
-            var sql = $@"SELECT * FROM [{entityType.Namespace}].[{entityType.Name}] WHERE [{keys.First().Name}] = @Key";
+            var sql = $@"SELECT * FROM ""{entityType.Namespace}"".""{entityType.Name}"" WHERE [{keys.First().Name}] = @Key";
 
             using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(clientName)))
             {
